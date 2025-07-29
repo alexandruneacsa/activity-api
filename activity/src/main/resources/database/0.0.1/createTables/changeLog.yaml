@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Alexandru Neacsa
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            endDelimiter: \n/\s*\n|\n/\s*$
+            path: 001-create-tables.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 2
+      author: Alexandru Neacsa
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: utf8
+            endDelimiter: \n/\s*\n|\n/\s*$
+            path: 002-init-data.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true

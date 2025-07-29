@@ -1,0 +1,115 @@
+plugins {
+  id 'java'
+  id 'org.springframework.boot' version '3.4.5'
+  id 'io.spring.dependency-management' version '1.1.7'
+  id 'org.asciidoctor.jvm.convert' version '3.3.2'
+  id "org.sonarqube" version '6.1.0.5360'
+  id 'com.adarshr.test-logger' version '4.0.0'
+  id 'jacoco'
+}
+
+group = 'org.calendar'
+version = '0.0.1-SNAPSHOT'
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
+}
+
+configurations {
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+ext {
+  set('snippetsDir', file("build/generated-snippets"))
+}
+
+dependencies {
+
+  // 🔍 Monitoring and health endpoints
+  implementation 'org.springframework.boot:spring-boot-starter-actuator' // exposes endpoints like /health, /metrics
+
+  // 🗃️ JPA and Hibernate support
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // enables Spring Data JPA for database access
+
+  // 🌐 RESTful web services
+  implementation 'org.springframework.boot:spring-boot-starter-web' // builds REST APIs and web applications
+
+  // ✅ Input validation
+  implementation 'org.springframework.boot:spring-boot-starter-validation' // adds support for bean validation (JSR-380)
+
+  // 📈 Distributed tracing
+  implementation 'io.micrometer:micrometer-tracing-bridge-brave' // integrates Brave for distributed tracing
+  runtimeOnly 'io.micrometer:micrometer-registry-prometheus' // exports metrics to Prometheus
+
+  // 📘 OpenAPI documentation
+  implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6' // auto-generates Swagger UI for REST APIs
+
+  // 🔁 Retry logic
+  implementation 'org.springframework.retry:spring-retry' // allows retrying failed operations
+
+  // 🧰 Utility functions
+  implementation 'org.apache.commons:commons-lang3:3.17.0' // provides helper methods for strings, collections, etc.
+  implementation "org.apache.httpcomponents.client5:httpclient5:5.5-alpha1" // HTTP client for making requests
+
+  // 🗄️ Hibernate dialects
+  implementation 'org.hibernate.orm:hibernate-community-dialects:7.0.0.CR1' // adds support for additional database dialects
+
+  // 🧬 Database migrations
+  implementation 'org.liquibase:liquibase-core' // manages schema changes and migrations
+
+  // 🐘 PostgreSQL driver
+  runtimeOnly 'org.postgresql:postgresql' // JDBC driver for PostgreSQL
+
+  // 🔄 Object mapping
+  implementation 'org.mapstruct:mapstruct:1.6.3' // generates mappers between DTOs and entities
+
+  // 🛠️ Compile-time code generation
+  compileOnly 'org.projectlombok:lombok' // adds annotations for generating boilerplate code (getters/setters)
+  annotationProcessor 'org.projectlombok:lombok' // processes Lombok annotations
+  annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3' // processes MapStruct annotations
+  annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0" // enables Lombok and MapStruct integration
+  // 🧪 Unit and integration testing
+  testImplementation 'org.springframework.boot:spring-boot-starter-test' // includes JUnit, Mockito, etc.
+  testImplementation 'org.springframework.boot:spring-boot-testcontainers' // integrates Testcontainers with Spring Boot
+  testImplementation 'org.testcontainers:junit-jupiter' // JUnit support for Testcontainers
+  testImplementation 'org.testcontainers:postgresql' // PostgreSQL container for testing
+  testImplementation 'io.rest-assured:rest-assured:5.4.0' // simplifies REST API testing
+
+  // 🚀 Test execution
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // launches JUnit tests
+
+  // 🛠️ Compile-time code generation for tests
+  testCompileOnly 'org.projectlombok:lombok' // Lombok for test classes
+  testAnnotationProcessor 'org.projectlombok:lombok' // processes Lombok annotations in test classes
+}
+
+
+sonar {
+  properties {
+    property 'sonar.coverage.exclusions', '**/config/*.java, **/constants/*.java, **/exception/*.java, **/populator/*.java, **/repository/*.java, **/model/**, **/*Application.java'
+  }
+}
+
+tasks.named('test') {
+  useJUnitPlatform()
+  testlogger {
+    slowThreshold 1000
+  }
+  finalizedBy jacocoTestReport
+}
+
+tasks.jacocoTestReport {
+  dependsOn test
+  reports {
+    xml.required.set(true)
+    html.required.set(false)
+  }
+}
