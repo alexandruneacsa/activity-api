@@ -27,7 +27,6 @@ public class WeatherController {
     @Operation(summary = "Get all weather data.")
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    @Transactional(readOnly = true)
     public List<WeatherDTO> getAllWeatherData() {
 
         return weatherService.getAllWeatherData();
@@ -36,7 +35,6 @@ public class WeatherController {
     @Operation(summary = "Get weather data by city name.")
     @GetMapping("weather-from")
     @ResponseStatus(HttpStatus.OK)
-    @Transactional(readOnly = true)
     public List<WeatherProjection> getAllWeatherDataByCityName(@RequestParam final String cityName) {
 
         return weatherService.findByCity(cityName);
@@ -45,7 +43,6 @@ public class WeatherController {
     @Operation(summary = "Get weather by filters")
     @PostMapping("/filters")
     @ResponseStatus(HttpStatus.OK)
-    @Transactional(readOnly = true)
     public Page<WeatherProjection> getWeatherByFilters(
             @SortDefault(sort = "id", direction = Sort.Direction.DESC) @PageableDefault(size = 25) final Pageable pageable,
             @RequestBody final List<QueryFilter> queryFilters) {
