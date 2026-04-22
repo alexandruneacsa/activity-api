@@ -20,7 +20,6 @@ public class CalendarController {
     @Operation(summary = "Get all days from calendar.")
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    @Transactional(readOnly = true)
     public List<CalendarDTO> getAllDays() {
 
         return calendarService.getAllDaysFromCalendar();
@@ -29,7 +28,6 @@ public class CalendarController {
     @Operation(summary = "Get all days from calendar by year.")
     @GetMapping("/find-by-year")
     @ResponseStatus(HttpStatus.OK)
-    @Transactional(readOnly = true)
     public List<CalendarDTO> getDaysByYear(@RequestParam final Integer year) {
 
         return calendarService.getDaysByYear(year);
@@ -38,7 +36,6 @@ public class CalendarController {
     @Operation(summary = "Add a day from calendar.")
     @PostMapping()
     @ResponseStatus(HttpStatus.OK)
-    @Transactional
     public CalendarDTO addDay(@RequestBody final CalendarDTO calendarDTO) {
 
         return calendarService.addDay(calendarDTO);
@@ -47,7 +44,6 @@ public class CalendarController {
     @Operation(summary = "Update a day from calendar.")
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
-    @Transactional
     public CalendarDTO updateDay(@RequestBody final CalendarDTO calendarDTO) {
 
         return calendarService.updateDay(calendarDTO);
@@ -56,7 +52,6 @@ public class CalendarController {
     @Operation(summary = "Delete a day from calendar.")
     @DeleteMapping()
     @ResponseStatus(HttpStatus.OK)
-    @Transactional
     public void deleteDay(@RequestParam final Long id) {
 
         calendarService.deleteDay(id);
