@@ -27,7 +27,6 @@ public class ActivityController {
     @Operation(summary = "Get all activities.")
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    @Transactional(readOnly = true)
     public List<ActivityDTO> getAllDays() {
 
         return activityService.getAllActivities();
@@ -36,7 +35,6 @@ public class ActivityController {
     @Operation(summary = "Get activity by name.")
     @GetMapping("get-activity-by-name")
     @ResponseStatus(HttpStatus.OK)
-    @Transactional(readOnly = true)
     public Optional<ActivityProjection> getActivityByName(@RequestParam final String name) {
 
         return activityService.findByName(name);
@@ -45,7 +43,6 @@ public class ActivityController {
     @Operation(summary = "Get activity name by id.")
     @GetMapping("get-activity-name")
     @ResponseStatus(HttpStatus.OK)
-    @Transactional(readOnly = true)
     public Optional<ActivityProjection> getActivityName(@RequestParam final Long id) {
 
         return activityService.findActivityNameById(id);
@@ -54,7 +51,6 @@ public class ActivityController {
     @Operation(summary = "Get all activities ordered by name.")
     @GetMapping("get-activities")
     @ResponseStatus(HttpStatus.OK)
-    @Transactional(readOnly = true)
     public Page<ActivityProjection> getAllActivities(@SortDefault(sort = "name",
             direction = Sort.Direction.ASC) @PageableDefault(size = 25) final Pageable pageable) {
 
@@ -64,7 +60,6 @@ public class ActivityController {
     @Operation(summary = "Add a activity in calendar.")
     @PostMapping()
     @ResponseStatus(HttpStatus.OK)
-    @Transactional
     public ActivityDTO addActivity(@RequestBody final ActivityDTO activityDTO) {
 
         return activityService.addActivity(activityDTO);
@@ -73,7 +68,6 @@ public class ActivityController {
     @Operation(summary = "Update a activity from calendar.")
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
-    @Transactional
     public ActivityDTO updateActivity(@RequestBody final ActivityDTO activityDTO) {
 
         return activityService.updateActivity(activityDTO);
@@ -82,7 +76,6 @@ public class ActivityController {
     @Operation(summary = "Delete a activity from calendar.")
     @DeleteMapping()
     @ResponseStatus(HttpStatus.OK)
-    @Transactional
     public void deleteActivity(@RequestParam final Long id) {
 
         activityService.deleteActivity(id);
