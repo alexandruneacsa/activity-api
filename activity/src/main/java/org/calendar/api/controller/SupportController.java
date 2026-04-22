@@ -24,7 +24,6 @@ public class SupportController {
     @Operation(summary = "Delete all days from calendar.")
     @DeleteMapping("/clean-days")
     @ResponseStatus(HttpStatus.OK)
-    @Transactional
     public void cleanDays() {
 
         calendarService.deleteAllDays();
@@ -33,7 +32,6 @@ public class SupportController {
     @Operation(summary = "Delete all weather data.")
     @DeleteMapping("/clean-weather")
     @ResponseStatus(HttpStatus.OK)
-    @Transactional
     public void cleanWeatherData() {
 
         weatherService.deleteAllWeatherData();
@@ -42,7 +40,6 @@ public class SupportController {
     @Operation(summary = "Delete all activities.")
     @DeleteMapping("/clean-activities")
     @ResponseStatus(HttpStatus.OK)
-    @Transactional
     public void cleanActivities() {
 
         activityService.deleteAllActivities();
